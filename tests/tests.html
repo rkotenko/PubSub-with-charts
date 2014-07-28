@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="../vendors/mocha.css" />
+  </head>
+  <body>
+    <div id="charts">
+      <button type="button" id="change">New Numbers</button>
+      <canvas id="Bar" width="200" height="200"></canvas>
+      <canvas id="Line" width="200" height="200"></canvas>
+      <canvas id="Radar" width="200" height="200"></canvas>
+    </div>
+    <div id="mocha"></div>
+    <script src="../vendors/jquery.js"></script>
+    <script src="../vendors/chai.js"></script>
+    <script src="../vendors/mocha.js"></script>
+    <script src="../vendors/sinon.js"></script>
+    <script src="../vendors/chart.js"></script>
+    <script src="../scripts/data.js"></script>
+    <script src="../scripts/functions.js"></script>
+    <script src="../scripts/publisher.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script src="tests.js"></script>
+    <script>
+      mocha.checkLeaks();
+      mocha.globals(['jQuery']);
+      mocha.run();
+    </script>
+  </body>
+</html>

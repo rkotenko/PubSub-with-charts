@@ -1,6 +1,6 @@
 // File contains some starting points for the graph
-
-var data = {
+(function(Charting){
+    Charting.data = {
     Line: {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [
@@ -45,3 +45,5 @@ var data = {
         ]
     }
 };
+
+}(window.Charting = window.Charting || {}));
