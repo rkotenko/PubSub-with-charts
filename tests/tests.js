@@ -15,7 +15,7 @@ describe('Publisher', function(){
 	
 	beforeEach(function(){
 		spy1 = sinon.spy(func1);
-		spy2 = sinon.spy(func1);
+		spy2 = sinon.spy(func2);
 		id1 = Publisher.subscribe('event1', spy1);
 		id2 = Publisher.subscribe('event2', spy2);
 		
@@ -33,7 +33,6 @@ describe('Publisher', function(){
 	});
 
 	describe('Subscribe and publish a topic', function(){
-
 		it('subscriber func1 should have been called with data', function(){
 			Publisher.publish('event1', 'data');
 			expect(spy1.called).to.be.true;
@@ -47,8 +46,6 @@ describe('Publisher', function(){
 	});	
 
 	describe('Unsubscribe', function(){
-		var result;
-
 		it('unsubscribing a non-subscriber from an existing event should return false', function(){
 			expect(Publisher.unsubscribe('event1', 5)).to.be.false;
 		});
@@ -58,6 +55,8 @@ describe('Publisher', function(){
 		});
 
 		it('publishing event1 should not call spy1', function(){
+			var result;
+
 			Publisher.unsubscribe('event1', id1);
 			result = Publisher.publish('event1');
 			expect(spy1.called).to.be.false;
@@ -73,8 +72,9 @@ describe('Charting Object', function(){
 			expect(Charting).to.exist;
 		});
 
+		// change to an empty array
 		it('chartArray should an empty object', function(){
-			expect(Charting.chartArray).to.eql({});
+			expect(Charting.chartArray).to.eql([]);
 		});
 
 		it('graphTypes should contain the needed chart types', function(){
@@ -89,18 +89,53 @@ describe('Charting Object', function(){
 	});
 
 	describe('Charting.createCharts', function(){
-		var count = 0;
+		it('should create graphTypes.length number of objects in Charting.chartArray', function(){
+			var count = 0,
+			object;
 
-		it('should create graphTypes.length number of chart objects in Charting.chartArray', function(){
 			Charting.createCharts();
-			// check for the existence of the changeData method.  If it exists, then this is a chart object with the extended change Data function
+			// check for the existence of the update method.  If it exists, then this is a chart object
+			// also check that each object has a token that is >= 0
 			for(var i = 0, len = graphTypes.length; i < len; i++){
-				if(Charting.chartArray[graphTypes[i]].changeData){
+				object = Charting.chartArray[i];
+				if(object.chart.update){
 					count++;
+					expect(object.id).to.be.above(-1);
 				}
 			}
 
 			expect(count).to.equal(graphTypes.length);
 		});
 	});
+
+	describe('getRandomArray', function(){
+		it('should return an array of length 6 with numbers between 1 and 10 inclusive', function(){
+			var data = [],
+			len;
+
+			data = Charting.getRandomArray(6, 1, 10);
+			len = data.length;
+			expect(len).to.equal(6);
+
+			for(var i = 0; i < len; i++){
+				expect(data[i]).to.be.within(1, 10);
+			}
+		});
+	});
+
+	describe('changeNumbers', function(){
+		it('should call getRandomArray', function(){
+			var randSpy = sinon.spy(Charting, 'getRandomArray');
+
+			Charting.changeNumbers();
+			expect(randSpy.called).to.be.true;
+		});
+
+		it('should call Publisher.publish', function(){
+			var pubSpy = sinon.spy(Publisher, 'publish');
+
+			Charting.changeNumbers();
+			expect(pubSpy.called).to.be.true;	
+		});
+	});	
 });
