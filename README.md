@@ -1,7 +1,7 @@
 PubSub-with-charts
 ==================
 
-The implementation here is very particular.  It really only allows one of each type of graph as it plays off of the html ID being the same as the name of the graph type in Chart.js.  This could be rectified to use a class instead and create as many charts as there are canvases with the chart type as the class.
+The creation of charts here is very particular in its setup.  It really only allows one of each type of graph since it plays off of the html ID being the same as the name of the graph type in Chart.js.  This could be rectified in one way by setting the class of the canvases to 'chart' and then giving them each an attribute that indicates the chart type.  Then, createCharts() could loop through all chart canvases and apply the proper setup data for each instead of relying on canvas AND the graphType variable of Charting to be in sync (Indeed, I might implement this for kicks - less areas for out of sync behavior is good).
 
 But that is not really the point.
 
