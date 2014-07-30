@@ -7,9 +7,9 @@
   <body>
     <div id="charts">
       <button type="button" id="change">New Numbers</button>
-      <canvas id="Bar" width="200" height="200"></canvas>
-      <canvas id="Line" width="200" height="200"></canvas>
-      <canvas id="Radar" width="200" height="200"></canvas>
+      <canvas class="chart" data-type="Bar" width="200" height="200"></canvas>
+      <canvas class="chart" data-type="Line" width="200" height="200"></canvas>
+      <canvas class="chart" data-type="Radar" width="200" height="200"></canvas>
     </div>
     <div id="mocha"></div>
     <script src="../vendors/jquery.js"></script>
@@ -18,8 +18,8 @@
     <script src="../vendors/sinon.js"></script>
     <script src="../vendors/chart.js"></script>
     <script src="../scripts/data.js"></script>
-    <script src="../scripts/charting.js"></script>
     <script src="../scripts/publisher.js"></script>
+    <script src="../scripts/charting.js"></script>
     <script>mocha.setup('bdd');</script>
     <script src="tests.js"></script>
     <script>

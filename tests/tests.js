@@ -77,26 +77,25 @@ describe('Charting Object', function(){
 			expect(Charting.chartArray).to.eql([]);
 		});
 
-		it('graphTypes should contain the needed chart types', function(){
-			expect(Charting.graphTypes).to.eql(graphTypes);
-		});
+		it('data needs to contain data for each canvas type', function(){
+			var canvases = $('.chart');
+			canvases.each(function(key){
 
-		it('data needs to contain data for each graphType', function(){
-			for(var i = 0, len = graphTypes.length; i < len; i++){
-				expect(Charting.data[graphTypes[i]]).to.exist;
-			}
+				expect(Charting.data[this.dataset.type]).to.exist;	
+			});
 		});
 	});
 
 	describe('Charting.createCharts', function(){
-		it('should create graphTypes.length number of objects in Charting.chartArray', function(){
+		it('should create <canvas> number of objects in Charting.chartArray', function(){
 			var count = 0,
-			object;
+			object, canvases;
 
+			canvases = $('.chart');
 			Charting.createCharts();
 			// check for the existence of the update method.  If it exists, then this is a chart object
 			// also check that each object has a token that is >= 0
-			for(var i = 0, len = graphTypes.length; i < len; i++){
+			for(var i = 0, len = canvases.length; i < len; i++){
 				object = Charting.chartArray[i];
 				if(object.chart.update){
 					count++;
@@ -104,7 +103,7 @@ describe('Charting Object', function(){
 				}
 			}
 
-			expect(count).to.equal(graphTypes.length);
+			expect(count).to.equal(canvases.length);
 		});
 	});
 

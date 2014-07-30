@@ -2,8 +2,7 @@
 
 (function(c, p, Chart){
 	c.chartArray  = [];
-	c.graphTypes = ['Bar', 'Line', 'Radar'];
-
+	
 	// function takes and array of data and changes the values of the points and bars for the graphs
 	// This will be the subscribed function.  Requires a chart be bound to it for context
 	changeData = function(data){
@@ -30,15 +29,16 @@
 	};
 
 	c.createCharts = function createCharts(){
-		var type, ctx, aChart, token;
+		var type, ctx, aChart, token, canvases;
 
 		// give all of the graph types an extended method to encapsulate data change/update and
 		// create a chart for each type
-		for(var i = 0, len = c.graphTypes.length; i < len; i++){
-			type = c.graphTypes[i];
-				
-			// create some charts
-			ctx = $('#' + type).get(0).getContext('2d');
+		// create some charts
+		canvases = $('.chart');
+		canvases.each(function(){
+			type = this.dataset.type;
+			ctx = this.getContext('2d');
+			
 			aChart = new Chart(ctx)[type](c.data[type]);
 
 			// Bind the chart to them so this is preserved in the subscribed function.
@@ -46,8 +46,8 @@
 			token = p.subscribe('newData', changeData.bind(aChart));
 			
 			c.chartArray.push({id: token, chart: aChart});	
-
-		}
+		});
+			
 	};
 
 	// get a {len} array of random numbers between {min} and {max} inclusive 
